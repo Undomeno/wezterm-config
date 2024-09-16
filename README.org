@@ -1,0 +1,266 @@
+* My WezTerm Config
+
+** Features
+:PROPERTIES:
+:CUSTOM_ID: features
+:END:
+*** Theme
+Changed to [[https://github.com/sainnhe/gruvbox-material][gruvbox-material]] theme.
+
+*** Getting Started
+:PROPERTIES:
+:CUSTOM_ID: getting-started
+:END:
+***** Requirements:
+  :PROPERTIES:
+  :CUSTOM_ID: requirements
+  :END:
+  - WezTerm =>= 20240127-113634-bbcac864=
+
+
+    #+begin_html
+      <details>
+    #+end_html
+
+    #+begin_html
+      <summary>
+    #+end_html
+
+    JetBrainsMono Nerd Font
+
+    #+begin_html
+      </summary>
+    #+end_html
+
+    Install with HomeBrew (Macos)
+
+    #+begin_src sh
+    brew tap homebrew/cask-fonts
+    brew install font-jetbrains-mono-nerd-font
+    #+end_src
+
+    Install with Scoop (Windows)
+
+    #+begin_src sh
+    scoop bucket add nerd-fonts
+    scoop install JetBrainsMono-NF
+    #+end_src
+
+    #+begin_quote
+    More Info:
+
+    - [[https://www.nerdfonts.com/#home]]
+    - [[https://github.com/ryanoasis/nerd-fonts?#font-installation]]
+    #+end_quote
+
+    #+begin_html
+      </details/>
+    #+end_html
+
+
+***** Steps:
+  :PROPERTIES:
+  :CUSTOM_ID: steps
+  :END:
+  1. =sh     # On Windows and Unix systems     git clone https://github.com/KevinSilvester/wezterm-config.git ~/.config/wezterm=
+  2. And Done!!! 🎉🎉
+
+
+***** Things You Might Want to Change:
+  :PROPERTIES:
+  :CUSTOM_ID: things-you-might-want-to-change
+  :END:
+  - [[./config/domains.lua]] for custom SSH/WSL domains
+  - [[./config/launch.lua]] for preferred shells and its paths
+
+--------------
+
+*** All Key Bindings
+:PROPERTIES:
+:CUSTOM_ID: all-key-bindings
+:END:
+Most of the key bindings revolve around a SUPER and SUPER_REV(super
+reversed) keys.
+
+- On MacOs:
+  - SUPER ⇨ Super
+  - SUPER_REV ⇨ Super+Ctrl
+- On Windows and Linux
+  - SUPER ⇨ Alt
+  - SUPER_REV ⇨ Alt+Ctrl
+
+#+begin_quote
+To avoid confusion when switching between different OS and to avoid
+conflicting with OS's built-in keyboard shortcuts.
+#+end_quote
+
+- On all platforms: LEADER ⇨ SUPER_REV+Space
+
+**** Miscellaneous/Useful
+:PROPERTIES:
+:CUSTOM_ID: miscellaneoususeful
+:END:
+| Keys    | Action                         |
+|---------+--------------------------------|
+| F1      | =ActivateCopyMode=               |
+| F2      | =ActivateCommandPalette=         |
+| F3      | =ShowLauncher=                   |
+| F4      | =ShowLauncher= (tabs only)       |
+| F5      | =ShowLauncher= (workspaces only) |
+| F11     | =ToggleFullScreen=               |
+| F12     | =ShowDebugOverlay=               |
+| SUPER+f | Search Text                    |
+| SUPER+u | Open URL                       |
+
+**** Copy+Paste
+:PROPERTIES:
+:CUSTOM_ID: copypaste
+:END:
+| Keys         | Action               |
+|--------------+----------------------|
+| Ctrl+Shift+c | Copy to Clipboard    |
+| Ctrl+Shift+v | Paste from Clipboard |
+
+**** Cursor Movements
+:PROPERTIES:
+:CUSTOM_ID: cursor-movements
+:END:
+| Keys             | Action                                           |
+|------------------+--------------------------------------------------|
+| SUPER+LeftArrow  | Move cursor to Line Start                        |
+| SUPER+RightArrow | Move cursor to Line End                          |
+| SUPER+Backspace  | Clear Line (does not work for PowerShell or cmd) |
+
+
+**** Tabs
+:PROPERTIES:
+:CUSTOM_ID: tabs
+:END:
+***** Tabs: Spawn+Close
+:PROPERTIES:
+:CUSTOM_ID: tabs-spawnclose
+:END:
+| Keys        | Action                   |
+|-------------+--------------------------|
+| SUPER+t     | =SpawnTab= (DefaultDomain) |
+| SUPER_REV+f | =SpawnTab= (WSL:Ubuntu)    |
+| SUPER_REV+w | =CloseCurrentTab=          |
+
+***** Tabs: Navigation
+:PROPERTIES:
+:CUSTOM_ID: tabs-navigation
+:END:
+| Keys        | Action         |
+|-------------+----------------|
+| SUPER+[     | Next Tab       |
+| SUPER+]     | Previous Tab   |
+| SUPER_REV+[ | Move Tab Left  |
+| SUPER_REV+] | Move Tab Right |
+
+
+**** Windows
+:PROPERTIES:
+:CUSTOM_ID: windows
+:END:
+| Keys    | Action        |
+|---------+---------------|
+| SUPER+n | =SpawnWindow= |
+
+
+**** Panes
+:PROPERTIES:
+:CUSTOM_ID: panes
+:END:
+***** Panes: Split Panes
+:PROPERTIES:
+:CUSTOM_ID: panes-split-panes
+:END:
+| Keys        | Action                                |
+|-------------+---------------------------------------|
+| SUPER+\     | =SplitVertical= (CurrentPaneDomain)   |
+| SUPER_REV+\ | =SplitHorizontal= (CurrentPaneDomain) |
+
+***** Panes: Zoom+Close Pane
+:PROPERTIES:
+:CUSTOM_ID: panes-zoomclose-pane
+:END:
+| Keys        | Action                |
+|-------------+-----------------------|
+| SUPER+Enter | =TogglePaneZoomState= |
+| SUPER+w     | =CloseCurrentPane=    |
+
+***** Panes: Navigation
+:PROPERTIES:
+:CUSTOM_ID: panes-navigation
+:END:
+| Keys        | Action                  |
+|-------------+-------------------------|
+| SUPER_REV+k | Move to Pane (Up)       |
+| SUPER_REV+j | Move to Pane (Down)     |
+| SUPER_REV+h | Move to Pane (Left)     |
+| SUPER_REV+l | Move to Pane (Right)    |
+| SUPER_REV+p | Swap with selected Pane |
+
+
+**** Background Images
+:PROPERTIES:
+:CUSTOM_ID: background-images
+:END:
+| Keys        | Action                  |
+|-------------+-------------------------|
+| SUPER+/     | Select Random Image     |
+| SUPER+,     | Cycle to next Image     |
+| SUPER+.     | Cycle to previous Image |
+| SUPER_REV+/ | Fuzzy select Image      |
+
+ 
+
+**** Key Tables
+:PROPERTIES:
+:CUSTOM_ID: key-tables
+:END:
+
+#+begin_quote
+See: [[https://wezfurlong.org/wezterm/config/key-tables.html]]
+#+end_quote
+
+| Keys     | Action        |
+|----------+---------------|
+| LEADER+f | =resize_font= |
+| LEADER+p | =resize_pane= |
+
+***** Key Table: =resize_font=
+:PROPERTIES:
+:CUSTOM_ID: key-table-resize_font
+:END:
+| Keys | Action               |
+|------+----------------------|
+| k    | =IncreaseFontSize=   |
+| j    | =DecreaseFontSize=   |
+| r    | =ResetFontSize=      |
+| q    | =PopKeyTable= (exit) |
+| Esc  | =PopKeyTable= (exit) |
+
+***** Key Table: =resize_pane=
+:PROPERTIES:
+:CUSTOM_ID: key-table-resize_pane
+:END:
+| Keys | Action                              |
+|------+-------------------------------------|
+| k    | =AdjustPaneSize= (Direction: Up)    |
+| j    | =AdjustPaneSize= (Direction: Down)  |
+| h    | =AdjustPaneSize= (Direction: Left)  |
+| l    | =AdjustPaneSize= (Direction: Right) |
+| q    | =PopKeyTable= (exit)                |
+| Esc  | =PopKeyTable= (exit)                |
+
+--------------
+
+*** References/Inspirations
+:PROPERTIES:
+:CUSTOM_ID: referencesinspirations
+:END:
+- [[https://github.com/rxi/lume]]
+- [[https://github.com/catppuccin/wezterm]]
+- [[https://github.com/wez/wezterm/discussions/628#discussioncomment-1874614]]
+- [[https://github.com/wez/wezterm/discussions/628#discussioncomment-5942139]]

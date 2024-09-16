@@ -1,6 +1,7 @@
 local wezterm = require('wezterm')
 local colors = require('themes.color')
 local mux = wezterm.mux
+local gpu_adapters = require('utils.gpu_adapter')
 
 wezterm.on("gui-startup", function()
   local tab, pane, window = mux.spawn_window(cmd or {})
@@ -10,6 +11,9 @@ end)
 return {
    animation_fps = 60,
    max_fps = 60,
+   front_end = 'WebGpu',
+   webgpu_power_preference = 'HighPerformance',
+   webgpu_preferred_adapter = gpu_adapters:pick_best(),
 
    -- color scheme
    colors = colors,
@@ -17,7 +21,7 @@ return {
    -- tab
    enable_tab_bar = true,
    tab_bar_at_bottom = true,
-   hide_tab_bar_if_only_one_tab = true,
+   hide_tab_bar_if_only_one_tab = false,
    use_fancy_tab_bar = false,
    switch_to_last_active_tab_when_closing_tab = true,
 
