@@ -29,6 +29,7 @@ local gruvbox = {
    bg_red = '#ea6962',
    bg_green = '#a9b665',
    bg_yellow = '#d8a657',
+   bg_blue = '#458588',
    grey0 = '#7c6f64',
    grey1 = '#928374',
    grey2 = '#a89984',
@@ -70,20 +71,19 @@ local colorscheme = {
       },
       inactive_tab = {
          bg_color = gruvbox.bg0,
-         fg_color = gruvbox.green,
+         fg_color = gruvbox.grey0,
       },
       inactive_tab_hover = {
          bg_color = gruvbox.bg0,
-         fg_color = gruvbox.aqua,
+         fg_color = gruvbox.bg_blue,
       },
       new_tab = {
          bg_color = 'rgba(0,0,0,0)',
-         fg_color = gruvbox.green,
+         fg_color = gruvbox.grey0,
       },
       new_tab_hover = {
          bg_color = 'rgba(0,0,0,0)',
-         fg_color = gruvbox.aqua,
-         bold = true,
+         fg_color = gruvbox.bg_blue,
       },
    },
    split = gruvbox.statusline1,

@@ -112,6 +112,10 @@ M.setup = function()
          end
       end
 
+      if tab_id == 1 then
+         _push(bg, colors.default.fg, { Intensity = 'Bold' }, ' '.. GLYPH_BOOK .. ' ')
+      end
+
       -- Left semi-circle
       _push(bg, bg, { Intensity = 'Bold' }, ' ')
 

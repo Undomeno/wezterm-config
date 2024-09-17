@@ -5,7 +5,9 @@
 :END:
 *** Theme
 Changed to [[https://github.com/sainnhe/gruvbox-material][gruvbox-material]] theme.
-
+*** Preview
+[[./.github/screenshots/screenshot-3.png]]
+The tab bar is inspired by this [[https://github.com/megalithic/dotfiles/tree/main/config/kitty][Kitty configuration]].
 ** Getting Started
 :PROPERTIES:
 :CUSTOM_ID: getting-started
