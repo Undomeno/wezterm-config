@@ -1,4 +1,5 @@
 local wezterm = require('wezterm')
+
 local color_palette = require('themes.color')
 
 -- Inspired by https://github.com/wez/wezterm/discussions/628#discussioncomment-1874614
@@ -85,7 +86,8 @@ M.setup = function()
 
       local bg
       local fg
-      local process_name = _set_process_name(tab.active_pane.foreground_process_name)
+      local tab_id = tab.tab_id + 1
+      local process_name = tab_id .. ': ' .. _set_process_name(tab.active_pane.foreground_process_name)
       local is_admin = _check_if_admin(tab.active_pane.title)
       local is_wsl = _check_if_wsl(process_name)
       local is_emacs = _check_if_emacs(process_name)
@@ -103,7 +105,6 @@ M.setup = function()
          fg = colors.default.fg
       end
 
-      local has_unseen_output = false
       for _, pane in ipairs(tab.panes) do
          if pane.has_unseen_output then
             has_unseen_output = true
@@ -116,7 +117,7 @@ M.setup = function()
 
       -- Active tab pin
       if tab.is_active then
-         _push(bg, fg, { Intensity = 'Bold' }, GLYPH_CIRCLE_DOUBLE..' ')
+         _push(bg, fg, { Intensity = 'Bold' }, GLYPH_CIRCLE_DOUBLE)
       else
          _push(bg, fg, { Intensity = 'Half' }, GLYPH_CIRCLE)
       end

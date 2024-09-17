@@ -66,7 +66,7 @@ local colorscheme = {
       background = 'rgba(0, 0, 0, 0)',
       active_tab = {
          bg_color = gruvbox.bg0,
-         fg_color = gruvbox.aqua,
+         fg_color = gruvbox.blue,
       },
       inactive_tab = {
          bg_color = gruvbox.bg0,
@@ -74,16 +74,16 @@ local colorscheme = {
       },
       inactive_tab_hover = {
          bg_color = gruvbox.bg0,
-         fg_color = gruvbox.blue,
+         fg_color = gruvbox.aqua,
       },
       new_tab = {
          bg_color = 'rgba(0,0,0,0)',
-         fg_color = gruvbox.fg0,
+         fg_color = gruvbox.green,
       },
       new_tab_hover = {
-         bg_color = gruvbox.bg0,
-         fg_color = gruvbox.yellow,
-         italic = true,
+         bg_color = 'rgba(0,0,0,0)',
+         fg_color = gruvbox.aqua,
+         bold = true,
       },
    },
    split = gruvbox.statusline1,

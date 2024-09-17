@@ -8,4 +8,6 @@ require('events.tab-title').setup()
 
 return Config:init()
 	:append(require('config.appearance'))
-	:append(require('config.fonts')).options
+	:append(require('config.fonts'))
+	:append(require('config.domains'))
+	:append(require('config.launch')).options
