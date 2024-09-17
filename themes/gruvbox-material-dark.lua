@@ -55,7 +55,7 @@ local colorscheme = {
    brights = {
       '#a89984', -- black
       '#fb4934', -- red
-      '#98971a', -- green
+      '#b8bb26', -- green
       '#fabd2d', -- yellow
       '#83a598', -- blue
       '#de869b', -- magenta/purple
