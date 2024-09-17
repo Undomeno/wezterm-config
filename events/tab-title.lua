@@ -1,12 +1,14 @@
 local wezterm = require('wezterm')
+local color_palette = require('themes.color')
 
 -- Inspired by https://github.com/wez/wezterm/discussions/628#discussioncomment-1874614
 
 local nf = wezterm.nerdfonts
 
-local GLYPH_SEMI_CIRCLE_LEFT = nf.ple_left_half_circle_thick --[[ '' ]]
-local GLYPH_SEMI_CIRCLE_RIGHT = nf.ple_right_half_circle_thick --[[ '' ]]
-local GLYPH_CIRCLE = nf.fa_circle --[[ '' ]]
+local GLYPH_EMACS = nf.custom_emacs --[[ '' ]]
+local GLYPH_CIRCLE_DOUBLE = nf.md_circle_double--[[ '󰺕' ]]
+local GLYPH_BOOK= nf.fae_book_open_o --[[ '' ]]
+local GLYPH_CIRCLE = nf.oct_dot_fill --[[ '' ]]
 local GLYPH_ADMIN = nf.md_shield_half_full --[[ '󰞀' ]]
 local GLYPH_UBUNTU = nf.cod_terminal_linux
 
@@ -16,9 +18,9 @@ local __cells__ = {} -- wezterm FormatItems (ref: https://wezfurlong.org/wezterm
 
 -- stylua: ignore
 local colors = {
-   default   = { bg = '#45475a', fg = '#1c1b19' },
-   is_active = { bg = '#7FB4CA', fg = '#11111b' },
-   hover     = { bg = '#587d8c', fg = '#1c1b19' },
+   default   = { bg = 'rgba(0,0,0,0)', fg = color_palette.tab_bar.inactive_tab.fg_color },
+   is_active = { bg = 'rgba(0,0,0,0)', fg = color_palette.tab_bar.active_tab.fg_color },
+   hover     = { bg = 'rgba(0,0,0,0)', fg = color_palette.tab_bar.inactive_tab_hover.fg_color },
 }
 
 local _set_process_name = function(s)
@@ -58,6 +60,14 @@ local _check_if_wsl = function(title)
    return false
 end
 
+local _check_if_emacs = function(p)
+   if p:match('^emacsclient') or p:match('(Emacs)') then
+      return true
+   end
+   return false
+end
+
+
 ---@param fg string
 ---@param bg string
 ---@param attribute table
@@ -78,8 +88,9 @@ M.setup = function()
       local process_name = _set_process_name(tab.active_pane.foreground_process_name)
       local is_admin = _check_if_admin(tab.active_pane.title)
       local is_wsl = _check_if_wsl(process_name)
+      local is_emacs = _check_if_emacs(process_name)
       local title =
-         _set_title(process_name, tab.active_pane.title, max_width, ((is_admin or is_wsl) and 8))
+         _set_title(process_name, tab.active_pane.title, max_width, ((is_admin or is_wsl or is_emacs) and 8))
 
       if tab.is_active then
          bg = colors.is_active.bg
@@ -101,9 +112,19 @@ M.setup = function()
       end
 
       -- Left semi-circle
-      _push('rgba(0, 0, 0, 0.4)', bg, { Intensity = 'Bold' }, GLYPH_SEMI_CIRCLE_LEFT)
+      _push(bg, bg, { Intensity = 'Bold' }, ' ')
 
-      -- Admin Icon
+      -- Active tab pin
+      if tab.is_active then
+         _push(bg, fg, { Intensity = 'Bold' }, GLYPH_CIRCLE_DOUBLE..' ')
+      else
+         _push(bg, fg, { Intensity = 'Half' }, GLYPH_CIRCLE)
+      end
+
+      -- Title
+      _push(bg, fg, { Intensity = 'Normal' }, ' ' .. title)
+
+       -- Admin Icon
       if is_admin then
          _push(bg, fg, { Intensity = 'Bold' }, ' ' .. GLYPH_ADMIN)
       end
@@ -113,19 +134,18 @@ M.setup = function()
          _push(bg, fg, { Intensity = 'Bold' }, ' ' .. GLYPH_UBUNTU)
       end
 
-      -- Title
-      _push(bg, fg, { Intensity = 'Bold' }, ' ' .. title)
+      -- Emacs Icon
+      if is_emacs then
+         _push(bg, fg, { Intensity = 'Bold' }, ' ' .. GLYPH_EMACS)
+         end
 
-      -- Unseen output alert
-      if has_unseen_output then
-         _push(bg, '#FFA066', { Intensity = 'Bold' }, ' ' .. GLYPH_CIRCLE)
-      end
 
       -- Right padding
       _push(bg, fg, { Intensity = 'Bold' }, ' ')
 
+
       -- Right semi-circle
-      _push('rgba(0, 0, 0, 0.4)', bg, { Intensity = 'Bold' }, GLYPH_SEMI_CIRCLE_RIGHT)
+      _push(bg, bg, { Intensity = 'Bold' }, ' ')
 
       return __cells__
    end)

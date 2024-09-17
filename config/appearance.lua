@@ -19,15 +19,17 @@ return {
    colors = colors,
 
    -- tab
+   show_tab_index_in_tab_bar = true,
    enable_tab_bar = true,
    tab_bar_at_bottom = true,
    hide_tab_bar_if_only_one_tab = false,
    use_fancy_tab_bar = false,
    switch_to_last_active_tab_when_closing_tab = true,
+   tab_max_width = 25,
 
    -- window
 
-   window_background_opacity = 0.7,
+   window_background_opacity = 0.6,
    window_decorations = "RESIZE",
    window_close_confirmation = 'NeverPrompt',
 
@@ -37,10 +39,10 @@ return {
    },
 
    window_padding = {
-      left = 60,
-      right = 60,
-      top = 20,
-      bottom = 20,
+      left = 10,
+      right = 7,
+      top = 0,
+      bottom = 0,
    },
 
    native_macos_fullscreen_mode = true,

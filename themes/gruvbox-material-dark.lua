@@ -74,10 +74,10 @@ local colorscheme = {
       },
       inactive_tab_hover = {
          bg_color = gruvbox.bg0,
-         fg_color = gruvbox.green,
+         fg_color = gruvbox.blue,
       },
       new_tab = {
-         bg_color = gruvbox.bg0,
+         bg_color = 'rgba(0,0,0,0)',
          fg_color = gruvbox.fg0,
       },
       new_tab_hover = {

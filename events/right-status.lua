@@ -48,7 +48,6 @@ local __cells__ = {} -- wezterm FormatItems (ref: https://wezfurlong.org/wezterm
 local _push = function(text, fg, bg)
    table.insert(__cells__, { Foreground = { Color = fg } })
    table.insert(__cells__, { Background = { Color = bg } })
-   table.insert(__cells__, { Attribute = { Intensity = 'Bold' } })
    table.insert(__cells__, { Text = text .. ' ' })
 end
 
