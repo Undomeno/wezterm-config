@@ -62,7 +62,7 @@ local _check_if_wsl = function(title)
 end
 
 local _check_if_emacs = function(p)
-   if p:match('^emacsclient') or p:match('(Emacs)') then
+   if p:match('^emacsclient') or p:match('^[eE]macs') then
       return true
    end
    return false
@@ -87,12 +87,12 @@ M.setup = function()
       local bg
       local fg
       local tab_id = tab.tab_id + 1
-      local process_name = tab_id .. ': ' .. _set_process_name(tab.active_pane.foreground_process_name)
+      local process_name = _set_process_name(tab.active_pane.foreground_process_name)
       local is_admin = _check_if_admin(tab.active_pane.title)
       local is_wsl = _check_if_wsl(process_name)
       local is_emacs = _check_if_emacs(process_name)
       local title =
-         _set_title(process_name, tab.active_pane.title, max_width, ((is_admin or is_wsl or is_emacs) and 8))
+         _set_title(tab_id .. ': ' .. process_name, tab.active_pane.title, max_width, ((is_admin or is_wsl or is_emacs) and 8))
 
       if tab.is_active then
          bg = colors.is_active.bg
@@ -116,7 +116,7 @@ M.setup = function()
          _push(bg, colors.default.fg, { Intensity = 'Bold' }, ' '.. GLYPH_BOOK .. ' ')
       end
 
-      -- Left semi-circle
+      -- Left padding
       _push(bg, bg, { Intensity = 'Bold' }, ' ')
 
       -- Active tab pin
@@ -140,17 +140,14 @@ M.setup = function()
       end
 
       -- Emacs Icon
-      if is_emacs then
+      if is_emacs and tab.is_active then
          _push(bg, fg, { Intensity = 'Bold' }, ' ' .. GLYPH_EMACS)
-         end
+      end
 
 
       -- Right padding
       _push(bg, fg, { Intensity = 'Bold' }, ' ')
 
-
-      -- Right semi-circle
-      _push(bg, bg, { Intensity = 'Bold' }, ' ')
 
       return __cells__
    end)

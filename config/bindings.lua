@@ -1,6 +1,5 @@
 local wezterm = require('wezterm')
 local platform = require('utils.platform')()
-local backdrops = require('utils.backdrops')
 local act = wezterm.action
 
 local mod = {}
@@ -74,6 +73,7 @@ local keys = {
    { key = 'n',          mods = mod.SUPER,     action = act.SpawnWindow },
 
    -- background controls --
+   --[==[
    {
       key = [[/]],
       mods = mod.SUPER,
@@ -109,6 +109,7 @@ local keys = {
          end),
       }),
    },
+   --]==]
 
    -- panes --
    -- panes: split panes
