@@ -29,15 +29,20 @@ local _set_process_name = function(s)
    return a:gsub('%.exe$', '')
 end
 
-local _set_title = function(process_name, base_title, max_width, inset)
+local _set_title = function(tab_id, process_name, base_title, max_width, inset)
    local title
    inset = inset or 6
 
-   if process_name:len() > 0 then
-      title = process_name .. ' ~ ' .. base_title
+   local foundAtStart = string.find(base_title, process_name)
+   if foundAtStart ~= nil then
+      title = base_title
+   elseif process_name:len() > 0 then
+      title = process_name .. ' ' .. base_title
    else
       title = base_title
    end
+
+   title = tab_id .. ': ' .. title
 
    if title:len() > max_width - inset then
       local diff = title:len() - max_width + inset
@@ -92,7 +97,7 @@ M.setup = function()
       local is_wsl = _check_if_wsl(process_name)
       local is_emacs = _check_if_emacs(process_name)
       local title =
-         _set_title(tab_id .. ': ' .. process_name, tab.active_pane.title, max_width, ((is_admin or is_wsl or is_emacs) and 8))
+         _set_title(tab_id, process_name, tab.active_pane.title, max_width, ((is_admin or is_wsl or is_emacs) and 6))
 
       if tab.is_active then
          bg = colors.is_active.bg

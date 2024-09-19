@@ -25,11 +25,12 @@ return {
    hide_tab_bar_if_only_one_tab = false,
    use_fancy_tab_bar = false,
    switch_to_last_active_tab_when_closing_tab = true,
-   tab_max_width = 25,
+   tab_max_width = 27,
 
    -- window
 
    window_background_opacity = 0.6,
+   macos_window_background_blur = 10,
    window_decorations = "RESIZE",
    window_close_confirmation = 'NeverPrompt',
 

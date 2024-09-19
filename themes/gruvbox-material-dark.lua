@@ -1,5 +1,6 @@
 -- A slightly altered version of catppucchin gruvbox
 local gruvbox = {
+   bg_dim = '#1b1b1b',
    bg0 = '#282828',
    bg1 = '#32302f',
    bg2 = '#32302f',
@@ -19,6 +20,9 @@ local gruvbox = {
    bg_current_word = '#3c3836',
    fg0 = '#d4be98',
    fg1 = '#ddc7a1',
+   fg2 = '#d5c4a1',
+   fg3 = '#bdae93',
+   fg4 = '#a89984',
    red = '#ea6962',
    orange = '#e78a4e',
    yellow = '#d8a657',
@@ -29,7 +33,6 @@ local gruvbox = {
    bg_red = '#ea6962',
    bg_green = '#a9b665',
    bg_yellow = '#d8a657',
-   bg_blue = '#458588',
    grey0 = '#7c6f64',
    grey1 = '#928374',
    grey2 = '#a89984',
@@ -51,17 +54,17 @@ local colorscheme = {
       '#458588', -- blue
       '#b16286', -- magenta/purple
       '#689d6a', -- cyan
-      '#928374', -- white
+      '#a89984', -- white
    },
    brights = {
-      '#a89984', -- black
+      '#928374', -- black
       '#fb4934', -- red
       '#b8bb26', -- green
-      '#fabd2d', -- yellow
+      '#fabd2f', -- yellow
       '#83a598', -- blue
-      '#de869b', -- magenta/purple
+      '#d3869b', -- magenta/purple
       '#8ec07c', -- cyan
-      '#928374', -- white
+      '#ebdbb2', -- white
    },
    tab_bar = {
       background = 'rgba(0, 0, 0, 0)',
@@ -75,7 +78,7 @@ local colorscheme = {
       },
       inactive_tab_hover = {
          bg_color = gruvbox.bg0,
-         fg_color = gruvbox.bg_blue,
+         fg_color = gruvbox.fg4,
       },
       new_tab = {
          bg_color = 'rgba(0,0,0,0)',
@@ -83,7 +86,7 @@ local colorscheme = {
       },
       new_tab_hover = {
          bg_color = 'rgba(0,0,0,0)',
-         fg_color = gruvbox.bg_blue,
+         fg_color = gruvbox.fg4,
       },
    },
    split = gruvbox.statusline1,
