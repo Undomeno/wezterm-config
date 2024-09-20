@@ -7,7 +7,7 @@
 Changed to [[https://github.com/sainnhe/gruvbox-material][gruvbox-material]] theme.
 *** Preview
 [[./.github/screenshots/screenshot-3.png]]
-The tab bar is a direct copy of this [[https://github.com/megalithic/dotfiles/tree/main/config/kitty][Kitty configuration]].
+The tab bar design is from this [[https://github.com/megalithic/dotfiles/tree/main/config/kitty][Kitty configuration]].
 The spotify tui is from [[https://github.com/adriankarlen/bar.wezterm][bar.wezterm]]
 ** Getting Started
 :PROPERTIES:
