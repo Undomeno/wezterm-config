@@ -40,12 +40,13 @@ local _set_title = function(tab_id, process_name, base_title, max_width, inset)
       title = base_title
    end
 
-   title = tab_id .. ': ' .. title
 
    if title:len() > max_width - inset then
       local diff = title:len() - max_width + inset
-      title = wezterm.truncate_right(title, title:len() - diff)
+      title = wezterm.truncate_left(title, title:len() - diff)
    end
+
+   title = tab_id .. ': ' .. title
 
    return title
 end

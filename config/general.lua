@@ -1,3 +1,6 @@
+
+local wezterm = require "wezterm"
+
 return {
    -- behaviours
    automatically_reload_config = true,

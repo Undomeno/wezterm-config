@@ -1,6 +1,8 @@
 local wezterm = require('wezterm')
 local umath = require('utils.math')
 local color_palette = require('themes.color')
+local spotify = require ("events.spotify")
+local utilities = require ("events.utilities")
 
 local nf = wezterm.nerdfonts
 local M = {}
@@ -35,8 +37,10 @@ local charging_icons = {
 local colors = {
    date_fg = color_palette.brights[5],
    date_bg = 'rgba(0, 0, 0, 0)',
+   date_utc_fg = color_palette.ansi[8],
+   date_utc_bg = 'rgba(0, 0, 0, 0)',
    battery_fg = color_palette.brights[5],
-   battery_bg = 'rgba(0, 0, 0, 0)',
+   default_bg = 'rgba(0, 0, 0, 0)',
    separator_fg = color_palette.ansi[8],
    separator_bg = 'rgba(0, 0, 0, 0)',
 }
@@ -67,7 +71,7 @@ end
 local _set_utc_date = function()
    local utc_date = wezterm.strftime_utc('%H:%M')
    local date = '(UTC ' .. utc_date .. ')'
-   _push(date, color_palette.ansi[8], colors.date_bg, false)
+   _push(date, colors.date_utc_fg, colors.date_utc_bg, false)
 end
 
 local _set_battery = function()
@@ -100,12 +104,18 @@ local _set_battery = function()
       end
    end
 
-   _push(charge, colors.battery_fg, colors.battery_bg, true)
+   _push(charge, colors.battery_fg, colors.default_bg, true)
 end
+
+local _set_spotify = function()
+   _push(spotify.get_currently_playing(40, 15), colors.date_utc_fg, colors.date_utc_bg, true)
+end
+
 
 M.setup = function()
    wezterm.on('update-right-status', function(window, _pane)
       __cells__ = {}
+      _set_spotify()
       _set_battery()
       _set_date()
       _set_utc_date()
