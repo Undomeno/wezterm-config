@@ -47,7 +47,7 @@ local colorscheme = {
    selection_bg = gruvbox.bg_current_word,
    selection_fg = gruvbox.grey1,
    ansi = {
-      '#928374', -- black
+      '#282828', -- black
       '#cc241d', -- red
       '#98971a', -- green
       '#d79921', -- yellow

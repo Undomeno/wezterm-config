@@ -1,5 +1,4 @@
 local wezterm = require('wezterm')
-
 local color_palette = require('themes.color')
 
 -- Inspired by https://github.com/wez/wezterm/discussions/628#discussioncomment-1874614
@@ -8,7 +7,6 @@ local nf = wezterm.nerdfonts
 
 local GLYPH_EMACS = nf.custom_emacs --[[ '' ]]
 local GLYPH_CIRCLE_DOUBLE = nf.md_circle_double--[[ '󰺕' ]]
-local GLYPH_BOOK= nf.fae_book_open_o --[[ '' ]]
 local GLYPH_CIRCLE = nf.oct_dot_fill --[[ '' ]]
 local GLYPH_ADMIN = nf.md_shield_half_full --[[ '󰞀' ]]
 local GLYPH_UBUNTU = nf.cod_terminal_linux
@@ -115,10 +113,6 @@ M.setup = function()
             has_unseen_output = true
             break
          end
-      end
-
-      if tab_id == 1 then
-         _push(bg, colors.default.fg, { Intensity = 'Bold' }, ' '.. GLYPH_BOOK .. ' ')
       end
 
       -- Left padding
