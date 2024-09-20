@@ -7,7 +7,7 @@
 Changed to [[https://github.com/sainnhe/gruvbox-material][gruvbox-material]] theme.
 *** Preview
 [[./.github/screenshots/screenshot-3.png]]
-The tab bar is inspired by this [[https://github.com/megalithic/dotfiles/tree/main/config/kitty][Kitty configuration]].
+The tab bar is a direct copy of this [[https://github.com/megalithic/dotfiles/tree/main/config/kitty][Kitty configuration]].
 The spotify tui is from [[https://github.com/adriankarlen/bar.wezterm][bar.wezterm]]
 ** Getting Started
 :PROPERTIES:
@@ -27,7 +27,6 @@ The spotify tui is from [[https://github.com/adriankarlen/bar.wezterm][bar.wezte
   :END:
   - [[./config/domains.lua]] for custom SSH/WSL domains
   - [[./config/launch.lua]] for preferred shells and its paths
---------------
 
 ** All Key Bindings
 :PROPERTIES:
@@ -167,7 +166,6 @@ conflicting with OS's built-in keyboard shortcuts.
 | SUPER+.     | Cycle to previous Image |
 | SUPER_REV+/ | Fuzzy select Image      |
 
- 
 
 *** Key Tables
 :PROPERTIES:
@@ -208,7 +206,6 @@ See: [[https://wezfurlong.org/wezterm/config/key-tables.html]]
 | q    | =PopKeyTable= (exit)                |
 | Esc  | =PopKeyTable= (exit)                |
 
---------------
 
 ** References/Inspirations
 :PROPERTIES:
