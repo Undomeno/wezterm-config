@@ -95,9 +95,6 @@ local _set_battery = function()
       elseif charge_num < 35 then
          colors.battery_fg = color_palette.brights[4]
          charge =  charge  .. ' ' .. discharging_icons[idx]
-      elseif charge_num <70 then
-         colors.battery_fg = color_palette.brights[5]
-         charge =  charge  .. ' ' .. discharging_icons[idx]
       else
          colors.battery_fg = color_palette.ansi[8]
          charge =  charge  .. ' ' .. discharging_icons[idx]
