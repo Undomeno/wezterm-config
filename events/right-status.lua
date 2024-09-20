@@ -105,7 +105,10 @@ local _set_battery = function()
 end
 
 local _set_spotify = function()
-   _push(spotify.get_currently_playing(40, 15), colors.date_utc_fg, colors.date_utc_bg, true)
+   local Text = spotify.get_currently_playing(40, 15)
+   if Text:len() > 0 then
+      _push(Text, colors.date_utc_fg, colors.date_utc_bg, true)
+   end
 end
 
 
