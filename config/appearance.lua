@@ -30,7 +30,7 @@ return {
    -- window
 
    window_background_opacity = 0.6,
-   macos_window_background_blur = 10,
+   macos_window_background_blur = 3,
    window_decorations = "RESIZE",
    window_close_confirmation = 'NeverPrompt',
 

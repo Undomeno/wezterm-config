@@ -34,7 +34,8 @@ end
 -- trim string from trailing spaces and newlines
 H._trim = function(s)
   s = s:match "^%s*(.-)%s*$"
-  s = s:gsub(" ?-? ?[Rr]emastered %d+", "")
+  s = s:gsub("%s*-%s*%d*%s*[Rr]emaster.*", "")
+  s = s:gsub(" ?%(.*[Rr]emastere?d?.*%)","")
   return s
 end
 
