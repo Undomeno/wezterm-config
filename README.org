@@ -1,4 +1,5 @@
 * My WezTerm Config
+
 ** Features
 :PROPERTIES:
 :CUSTOM_ID: features
