@@ -4,7 +4,7 @@ local mux = wezterm.mux
 local gpu_adapters = require('utils.gpu_adapter')
 
 wezterm.on("gui-startup", function()
-  local tab, pane, window = mux.spawn_window(cmd or {})
+  local tab, pane, window = mux.spawn_window{}
   window:gui_window():maximize()
 end)
 
@@ -30,7 +30,7 @@ return {
    -- window
 
    window_background_opacity = 0.6,
-   macos_window_background_blur = 3,
+   macos_window_background_blur = 20,
    window_decorations = "RESIZE",
    window_close_confirmation = 'NeverPrompt',
 
@@ -45,6 +45,5 @@ return {
       top = 2,
       bottom = 0,
    },
-
    native_macos_fullscreen_mode = true,
 }
