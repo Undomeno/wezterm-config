@@ -1,7 +1,7 @@
 local wezterm = require('wezterm')
 local colors = require('themes.color')
 local mux = wezterm.mux
-local gpu_adapters = require('utils.gpu_adapter')
+local gpu_adapters = require('utils.gpu-adapter')
 
 wezterm.on("gui-startup", function()
   local tab, pane, window = mux.spawn_window{}
@@ -26,9 +26,6 @@ return {
 
    -- color scheme
    colors = colors,
-
-   -- background
-   background = backdrops:initial_options(false), -- set to true if you want wezterm to start on focus mode
 
    -- scrollbar
    enable_scroll_bar = true,

@@ -1,0 +1,106 @@
+*** Thread 0 Crashed::  Dispatch queue: com.apple.main-thread
+0   libsystem_kernel.dylib        	       0x180a77720 __pthread_kill + 8
+1   libsystem_pthread.dylib       	       0x180aaff70 pthread_kill + 288
+2   libsystem_c.dylib             	       0x180984c18 raise + 32
+3   Emacs                         	       0x10315aad8 terminate_due_to_signal + 212
+4   Emacs                         	       0x10315b258 emacs_abort + 20
+5   Emacs                         	       0x103136828 ns_term_shutdown + 144
+6   Emacs                         	       0x102fdf34c shut_down_emacs + 368
+7   Emacs                         	       0x10315aaa0 terminate_due_to_signal + 156
+8   Emacs                         	       0x10315b258 emacs_abort + 20
+9   Emacs                         	       0x102fc5918 bidi_resolve_explicit + 1816
+10  Emacs                         	       0x102fc42f8 bidi_resolve_weak + 48
+11  Emacs                         	       0x102fc3e44 bidi_resolve_brackets + 460
+12  Emacs                         	       0x102fc3078 bidi_level_of_next_char + 396
+13  Emacs                         	       0x102fc28e4 bidi_move_to_visually_next + 324
+14  Emacs                         	       0x102f402ac iterate_out_of_display_property + 176
+15  Emacs                         	       0x102f401c0 pop_it + 940
+16  Emacs                         	       0x102f2f89c set_iterator_to_next + 1180
+17  Emacs                         	       0x102f50180 display_line + 2964
+18  Emacs                         	       0x102f4e4d8 try_window + 220
+19  Emacs                         	       0x102f58150 redisplay_window + 10008
+20  Emacs                         	       0x102f55a2c redisplay_window_0 + 44
+21  Emacs                         	       0x10306f960 internal_condition_case_1 + 96
+22  Emacs                         	       0x102f53630 redisplay_windows + 108
+23  Emacs                         	       0x102f4d1c8 redisplay_internal + 5588
+24  Emacs                         	       0x102f68420 redisplay_preserve_echo_area + 120
+25  Emacs                         	       0x1030cba98 wait_reading_process_output + 6188
+26  Emacs                         	       0x102fe88e8 read_char + 7404
+27  Emacs                         	       0x102fe4a60 read_key_sequence + 1396
+28  Emacs                         	       0x102fe32b0 command_loop_1 + 864
+29  Emacs                         	       0x10306f8dc internal_condition_case + 92
+30  Emacs                         	       0x102fe24cc command_loop_2 + 52
+31  Emacs                         	       0x10306f03c internal_catch + 84
+32  Emacs                         	       0x102fe2480 command_loop + 132
+33  Emacs                         	       0x102fe2348 recursive_edit_1 + 168
+34  Emacs                         	       0x102fe2a28 Frecursive_edit + 388
+35  Emacs                         	       0x103072898 funcall_subr + 240
+36  Emacs                         	       0x10306d06c Ffuncall + 404
+37  debug-bee52b4d-5248d3a8.eln   	       0x16d0ca50c F6465627567_debug_0 + 3180
+38  Emacs                         	       0x103072810 funcall_subr + 104
+39  Emacs                         	       0x10306d06c Ffuncall + 404
+40  simple-fab5b0cf-4a9a0458.eln  	       0x107546204 F6576616c2d65787072657373696f6e2d2d6465627567_eval_expression__debug_0 + 96
+41  Emacs                         	       0x1030728c8 funcall_subr + 288
+42  Emacs                         	       0x10306d06c Ffuncall + 404
+43  Emacs                         	       0x10307012c signal_or_quit + 1116
+44  Emacs                         	       0x10315c744 Fsignal + 32
+45  Emacs                         	       0x10315b648 xsignal + 12
+46  Emacs                         	       0x10315c570 xsignal1 + 28
+47  Emacs                         	       0x10306c77c eval_sub + 2472
+48  Emacs                         	       0x103070da4 Feval + 84
+49  Emacs                         	       0x103072810 funcall_subr + 104
+50  Emacs                         	       0x10306d06c Ffuncall + 404
+51  elisp-mode-90dbfe40-76aacd01.eln	       0x10a26a8f4 F656c6973702d2d6576616c2d6c6173742d73657870_elisp__eval_last_sexp_0 + 340
+52  Emacs                         	       0x1030728c8 funcall_subr + 288
+53  Emacs                         	       0x1030b9f4c exec_byte_code + 2364
+54  Emacs                         	       0x10306d06c Ffuncall + 404
+55  Emacs                         	       0x10306f834 Fhandler_bind_1 + 156
+56  elisp-mode-90dbfe40-76aacd01.eln	       0x10a26ae68 F6576616c2d6c6173742d73657870_eval_last_sexp_0 + 136
+57  Emacs                         	       0x1030728c8 funcall_subr + 288
+58  Emacs                         	       0x10306d06c Ffuncall + 404
+59  eros-5e9cd3cb-23f831f0.eln    	       0x3ac957104 F65726f732d6576616c2d6c6173742d73657870_eros_eval_last_sexp_0 + 68
+60  Emacs                         	       0x1030728c8 funcall_subr + 288
+61  Emacs                         	       0x10306d06c Ffuncall + 404
+62  Emacs                         	       0x103069a10 Ffuncall_interactively + 68
+63  Emacs                         	       0x103072810 funcall_subr + 104
+64  Emacs                         	       0x10306d06c Ffuncall + 404
+65  Emacs                         	       0x10306ad98 Fcall_interactively + 4976
+66  simple-fab5b0cf-4a9a0458.eln  	       0x10754a6ac F636f6d6d616e642d65786563757465_command_execute_0 + 648
+67  Emacs                         	       0x103072900 funcall_subr + 344
+68  Emacs                         	       0x10306d06c Ffuncall + 404
+69  Emacs                         	       0x102fe34c0 command_loop_1 + 1392
+70  Emacs                         	       0x10306f8dc internal_condition_case + 92
+71  Emacs                         	       0x102fe24cc command_loop_2 + 52
+72  Emacs                         	       0x10306f03c internal_catch + 84
+73  Emacs                         	       0x10315af1c command_loop.cold.1 + 88
+74  Emacs                         	       0x102fe2498 command_loop + 156
+75  Emacs                         	       0x102fe2348 recursive_edit_1 + 168
+76  Emacs                         	       0x102fe2a28 Frecursive_edit + 388
+77  Emacs                         	       0x102fe147c main + 8404
+78  dyld                          	       0x180730274 start + 2840
+
+This backtrace shows that Emacs crashed on the main thread when it received a signal (SIGABRT, in this case originating via __pthread_kill). In other words, Emacs deliberately terminated itself (using functions like emacs_abort and ns_term_shutdown) after something went wrong.
+
+Key points in the trace:
+
+1. The crash begins in the kernel (via __pthread_kill) and quickly moves to routines in the Emacs executable. This is the usual “panic‐like” sequence when Emacs detects a serious error.
+
+2. Several of the frames (frames 9–14, for example) are in functions with names starting with “bidi_…” such as bidi_resolve_explicit, bidi_resolve_weak, and bidi_move_to_visually_next. “Bidi” stands for bidirectional text handling. This suggests that the crash may have been triggered during processing of bidirectional (for example, mixed left‑to‑right and right‑to‑left) text. Problems in these parts of the code often show up when Emacs tries to display, iterate, or compute visual ordering of text regions that use bidirectional text properties.
+
+3. The later portions of the trace show invocations of general redisplay functions (like display_line, redisplay_window, redisplay_internal) and functions that process user input (read_char, command_loop). This indicates that the crash occurred during an update of the display, which is a common moment for subtle bugs in layout or text rendering (especially when bidi text is involved).
+
+4. You can also see that the call stack moves into evaluated Lisp code (with frames referencing “eval_last_sexp” and “command_execute”) which means that an Emacs Lisp function was active in the process. This may indicate that either the problematic bidirectional processing was triggered by rendering of such evaluated code or that the crash was triggered from a command that indirectly caused Emacs to update the display in a way that exposed a bug.
+
+What can you do about it?
+
+• If you’re able to reproduce the crash reliably (for example when working with bidirectional text, or during a particular command or window configuration), you may want to try disabling Emacs’ bidirectional reordering to see if that circumvents the problem. This can be done by adding something like
+  (setq bidi-display-reordering nil)
+to your init file (or evaluating it in your session). (Note that doing so might affect the display of bidirectional text.)
+
+• Make sure you are running the latest stable version of Emacs. Many crashes (especially obscure ones deep in text rendering) get fixed over time.
+
+• If the crash persists and you can reliably reproduce it, consider filing a bug report. Include your Emacs version, operating system details, and the complete crash backtrace. The Emacs developers will need this information to diagnose and fix such problems.
+
+In summary, your backtrace indicates that an error in the bidirectional text handling (or a related display update) led Emacs to trigger an abort. Disabling bidi reordering or updating Emacs may help, and if not, you might want to report the issue.
+
+***   

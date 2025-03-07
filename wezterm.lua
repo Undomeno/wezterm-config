@@ -5,7 +5,7 @@ local Config = require('config')
 require('events.right-status').setup()
 require('events.left-status').setup()
 require('events.right-status').setup({ date_format = '%a %H:%M:%S' })
-require('events.tab-title').setup({ hide_active_tab_unseen = false, unseen_icon = 'circle' })
+require('events.tab-title').setup()
 require('events.new-tab-button').setup()
 
 return Config:init()

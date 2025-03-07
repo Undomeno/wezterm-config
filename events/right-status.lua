@@ -5,13 +5,10 @@ local spotify = require ("events.spotify")
 local utilities = require ("events.utilities")
 
 local nf = wezterm.nerdfonts
-local attr = Cells.attr
-
 local M = {}
 
 local SEPARATOR_CHAR = nf.cod_kebab_vertical .. ' '
 
----@type string[]
 local discharging_icons = {
    nf.md_battery_10,
    nf.md_battery_20,
@@ -24,7 +21,6 @@ local discharging_icons = {
    nf.md_battery_90,
    nf.md_battery_heart_variant,
 }
----@type string[]
 local charging_icons = {
    nf.md_battery_charging_10,
    nf.md_battery_charging_20,
@@ -38,8 +34,6 @@ local charging_icons = {
    nf.md_battery_heart_variant,
 }
 
----@type table<string, Cells.SegmentColors>
--- stylua: ignore
 local colors = {
    date_fg = color_palette.brights[5],
    date_bg = 'rgba(0, 0, 0, 0)',
@@ -49,10 +43,9 @@ local colors = {
    default_bg = 'rgba(0, 0, 0, 0)',
    separator_fg = color_palette.ansi[8],
    separator_bg = 'rgba(0, 0, 0, 0)',
-
 }
 
-local cells = Cells:new()
+local __cells__ = {} -- wezterm FormatItems (ref: https://wezfurlong.org/wezterm/config/lua/wezterm/format.html)
 
 ---@param text string
 ---@param icon string
@@ -82,7 +75,6 @@ local _set_utc_date = function()
 end
 
 local _set_battery = function()
-
    -- ref: https://wezfurlong.org/wezterm/config/lua/wezterm/battery_info.html
 
    local charge = ''
@@ -128,23 +120,7 @@ M.setup = function()
       _set_date()
       _set_utc_date()
 
-   if err then
-      wezterm.log_error(err)
-   end
-
-   wezterm.on('update-right-status', function(window, _pane)
-      local battery_text, battery_icon = battery_info()
-
-      cells
-         :update_segment_text('date_text', wezterm.strftime(valid_opts.date_format))
-         :update_segment_text('battery_icon', battery_icon)
-         :update_segment_text('battery_text', battery_text)
-
-      window:set_right_status(
-         wezterm.format(
-            cells:render({ 'date_icon', 'date_text', 'separator', 'battery_icon', 'battery_text' })
-         )
-      )
+      window:set_right_status(wezterm.format(__cells__))
    end)
 end
 
