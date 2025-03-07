@@ -8,14 +8,27 @@ local stored_playback = ""
 
 -- format spotify playback, to handle max_width nicely
 local format_playback = function(pb, max_width)
+  if not pb or #pb <= 0 then
+    return ""
+  end
+
   if #pb <= max_width then
     return pb
   end
 
   -- split on " - "
   local artist, track = pb:match "^(.-) %- (.+)$"
+  if not artist or not track then
+    return pb:sub(1, max_width)
+  end
+
   -- get artist before first ","
-  local pb_main_artist = artist:match "([^,]+)" .. " - " .. track
+  local artist_match = artist:match "([^,]+)"
+  if not artist_match then
+    return pb:sub(1, max_width)
+  end
+
+  local pb_main_artist = artist_match .. " - " .. track
   if #pb_main_artist <= max_width then
     return pb_main_artist
   end
@@ -29,15 +42,40 @@ M.get_currently_playing = function(max_width, throttle)
   if utilities._wait(throttle, last_update) then
     return stored_playback
   end
-  -- fetch playback using spotify-tui
-  local home = os.getenv("HOME")
-  local success, pb, stderr = wez.run_child_process {  home .. "/.cargo/bin/spt", "playback", "--format=%a - %t" }
+
+  -- Check if we're in a context where we can run child processes
+  local success, result = pcall(function()
+    -- fetch playback using spotify-tui
+    local home = os.getenv("HOME")
+    if not home then
+      return ""
+    end
+
+    local spt_path = home .. "/.cargo/bin/spt"
+    -- Check if the file exists before trying to run it
+    local file = io.open(spt_path, "r")
+    if not file then
+      return ""
+    end
+    file:close()
+
+    local success, pb, stderr = wez.run_child_process { spt_path, "playback", "--format=%a - %t" }
+    if not success then
+      if stderr then
+        wez.log_error("Spotify error: " .. stderr)
+      end
+      return ""
+    end
+
+    return utilities._trim(pb or "")
+  end)
 
   if not success then
-    wez.log_error(stderr)
+    -- If there was an error, just return empty string
     return ""
   end
-  local res = format_playback(utilities._trim(pb), max_width)
+
+  local res = format_playback(result, max_width)
   stored_playback = res
   last_update = os.time()
 

@@ -1,12 +1,6 @@
 local wezterm = require('wezterm')
 local colors = require('themes.color')
-local mux = wezterm.mux
 local gpu_adapters = require('utils.gpu-adapter')
-
-wezterm.on("gui-startup", function()
-  local tab, pane, window = mux.spawn_window{}
-  window:gui_window():maximize()
-end)
 
 return {
    max_fps = 120,
@@ -16,6 +10,10 @@ return {
    -- webgpu_preferred_adapter = gpu_adapters:pick_manual('Dx12', 'IntegratedGpu'),
    -- webgpu_preferred_adapter = gpu_adapters:pick_manual('Gl', 'Other'),
    underline_thickness = '1.5pt',
+
+   -- window size
+   initial_cols = 153,
+   initial_rows = 47,
 
    -- cursor
    animation_fps = 120,
@@ -28,7 +26,7 @@ return {
    colors = colors,
 
    -- scrollbar
-   enable_scroll_bar = true,
+   enable_scroll_bar = false,
 
    -- tab bar
    show_tab_index_in_tab_bar = true,
@@ -41,8 +39,8 @@ return {
 
    -- window
 
-   window_background_opacity = 0.6,
-   macos_window_background_blur = 10,
+   window_background_opacity = 0.7,
+   macos_window_background_blur = 80,
    window_padding = {
       left = 0,
       right = 0,

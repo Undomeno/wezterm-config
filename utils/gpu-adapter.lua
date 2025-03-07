@@ -33,8 +33,8 @@ GpuAdapters.AVAILABLE_BACKENDS = {
    mac = { 'Metal' },
 }
 
----@type WeztermGPUAdapter[]
-GpuAdapters.ENUMERATED_GPUS = wezterm.gui.enumerate_gpus()
+-- Defer GPU enumeration until needed
+GpuAdapters.ENUMERATED_GPUS = nil
 
 ---@return GpuAdapters
 ---@private
@@ -48,17 +48,24 @@ function GpuAdapters:init()
       Other = nil,
    }
 
-   -- iterate over the enumerated GPUs and create a lookup table (`AdapterMap`)
-   for _, adapter in ipairs(self.ENUMERATED_GPUS) do
-      if not initial[adapter.device_type] then
-         initial[adapter.device_type] = {}
-      end
-      initial[adapter.device_type][adapter.backend] = adapter
-   end
-
    local gpu_adapters = setmetatable(initial, self)
 
    return gpu_adapters
+end
+
+-- Helper function to ensure GPUs are enumerated
+function GpuAdapters:ensure_gpus_enumerated()
+   if not self.ENUMERATED_GPUS then
+      self.ENUMERATED_GPUS = wezterm.gui.enumerate_gpus()
+
+      -- iterate over the enumerated GPUs and create a lookup table (`AdapterMap`)
+      for _, adapter in ipairs(self.ENUMERATED_GPUS) do
+         if not self[adapter.device_type] then
+            self[adapter.device_type] = {}
+         end
+         self[adapter.device_type][adapter.backend] = adapter
+      end
+   end
 end
 
 ---Will pick the best adapter based on the following criteria:
@@ -78,6 +85,8 @@ end
 ---Or feel free to re-arrange `GpuAdapters.AVAILABLE_BACKENDS` to you liking
 ---@return WeztermGPUAdapter|nil
 function GpuAdapters:pick_best()
+   self:ensure_gpus_enumerated()
+
    local adapters_options = self.DiscreteGpu
    local preferred_backend = self.__preferred_backend
 
@@ -115,6 +124,8 @@ end
 ---@param device_type WeztermGPUDeviceType
 ---@return WeztermGPUAdapter|nil
 function GpuAdapters:pick_manual(backend, device_type)
+   self:ensure_gpus_enumerated()
+
    local adapters_options = self[device_type]
 
    if not adapters_options then

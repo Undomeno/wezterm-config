@@ -29,7 +29,7 @@ cells
    :add_segment(4, GLYPH_SEMI_CIRCLE_RIGHT, colors.scircle, attr(attr.intensity('Bold')))
 
 M.setup = function()
-   wezterm.on('update-right-status', function(window, _pane)
+   wezterm.on('update-left-status', function(window, _pane)
       __cells__ = {}
 
       _push(' ' .. GLYPH_BOOK .. ' ', colors.default.fg, colors.default.bg)

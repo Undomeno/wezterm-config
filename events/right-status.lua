@@ -1,13 +1,14 @@
 local wezterm = require('wezterm')
 local umath = require('utils.math')
 local color_palette = require('themes.color')
-local spotify = require ("events.spotify")
-local utilities = require ("events.utilities")
+local spotify = require("events.spotify")
+local utilities = require("events.utilities")
 
 local nf = wezterm.nerdfonts
 local M = {}
 
 local SEPARATOR_CHAR = nf.cod_kebab_vertical .. ' '
+local date_format = '%a %H:%M:%S' -- Default format with seconds for better update visibility
 
 local discharging_icons = {
    nf.md_battery_10,
@@ -48,9 +49,9 @@ local colors = {
 local __cells__ = {} -- wezterm FormatItems (ref: https://wezfurlong.org/wezterm/config/lua/wezterm/format.html)
 
 ---@param text string
----@param icon string
 ---@param fg string
 ---@param bg string
+---@param separate boolean
 local _push = function(text, fg, bg, separate)
    table.insert(__cells__, { Foreground = { Color = fg } })
    table.insert(__cells__, { Background = { Color = bg } })
@@ -64,7 +65,7 @@ local _push = function(text, fg, bg, separate)
 end
 
 local _set_date = function()
-   local date = wezterm.strftime('%a %H:%M')
+   local date = wezterm.strftime(date_format)
    _push(date, colors.date_fg, colors.date_bg)
 end
 
@@ -88,16 +89,16 @@ local _set_battery = function()
 
       if b.state == 'Charging' then
          colors.battery_fg = color_palette.ansi[8]
-         charge =  charge  .. ' ' .. charging_icons[idx]
+         charge = charge .. ' ' .. charging_icons[idx]
       elseif charge_num < 15 then
          colors.battery_fg = color_palette.brights[2]
-         charge =  charge  .. ' ' .. discharging_icons[idx]
+         charge = charge .. ' ' .. discharging_icons[idx]
       elseif charge_num < 35 then
          colors.battery_fg = color_palette.brights[4]
-         charge =  charge  .. ' ' .. discharging_icons[idx]
+         charge = charge .. ' ' .. discharging_icons[idx]
       else
          colors.battery_fg = color_palette.ansi[8]
-         charge =  charge  .. ' ' .. discharging_icons[idx]
+         charge = charge .. ' ' .. discharging_icons[idx]
       end
    end
 
@@ -106,21 +107,79 @@ end
 
 local _set_spotify = function()
    local Text = spotify.get_currently_playing(40, 15)
-   if Text:len() > 0 then
+   if Text and Text:len() > 0 then
       _push(Text, colors.date_utc_fg, colors.date_utc_bg, true)
    end
 end
 
+-- Function to update the status bar for a window
+local function update_status(window)
+   if not window then return end
 
-M.setup = function()
-   wezterm.on('update-right-status', function(window, _pane)
-      __cells__ = {}
+   __cells__ = {}
+
+   -- Use pcall to catch any errors that might occur during status updates
+   local success, err = pcall(function()
       _set_spotify()
       _set_battery()
       _set_date()
       _set_utc_date()
+   end)
 
+   if not success then
+      -- If there was an error, just show a simple status
+      __cells__ = {}
+      _push("Status error: " .. tostring(err), colors.date_fg, colors.date_bg, false)
+   end
+
+   -- Set the status with error handling
+   pcall(function()
       window:set_right_status(wezterm.format(__cells__))
+   end)
+end
+
+M.setup = function(config)
+   -- Allow customizing the date format
+   if config and config.date_format then
+      date_format = config.date_format
+   end
+
+   -- Handle regular status updates
+   wezterm.on('update-right-status', function(window, _pane)
+      update_status(window)
+   end)
+
+   -- Handle window focus events to force an update when window gets focus
+   -- This helps with resuming from sleep
+   wezterm.on('window-focus-changed', function(window, pane)
+      if window:is_focused() then
+         update_status(window)
+      end
+   end)
+
+   -- Create a timer to periodically force updates
+   -- This helps ensure the status bar updates even if the regular event isn't firing
+   wezterm.on('gui-startup', function()
+      local mux = wezterm.mux
+      window:gui_window():maximize()
+
+      -- Start a timer that fires once per second
+      local timer = wezterm.timer.new({
+         interval = 1.0,
+         single_shot = false,
+         callback = function()
+            -- Force all windows to update their status
+            for _, window in ipairs(wezterm.mux.all_windows()) do
+               local success, err = pcall(function()
+                  update_status(window)
+               end)
+               if not success then
+                  wezterm.log_error("Failed to update status: " .. tostring(err))
+               end
+            end
+         end,
+      })
+      timer:start()
    end)
 end
 
