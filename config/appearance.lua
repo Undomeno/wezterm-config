@@ -42,7 +42,7 @@ return {
    -- window
 
    window_background_opacity = 0.6,
-   macos_window_background_blur = 20,
+   macos_window_background_blur = 10,
    window_padding = {
       left = 0,
       right = 0,
@@ -64,6 +64,7 @@ return {
       saturation = 1,
       brightness = 1,
    },
+   window_decorations = "RESIZE",
 
    visual_bell = {
       fade_in_function = 'EaseIn',
