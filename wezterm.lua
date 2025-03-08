@@ -2,6 +2,12 @@
 local wezterm = require 'wezterm'
 local Config = require('config')
 
+wezterm.on('gui-startup', function(cmd)
+	local mux = wezterm.mux
+	local tab, pane, window = mux.spawn_window(cmd or {})
+	window:gui_window():maximize()
+end)
+
 require('events.right-status').setup({ date_format = '%a %H:%M:%S' })
 require('events.left-status').setup()
 require('events.tab-title').setup()

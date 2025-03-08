@@ -40,7 +40,7 @@ return {
    -- window
 
    window_background_opacity = 0.7,
-   macos_window_background_blur = 80,
+   macos_window_background_blur = 20,
    window_padding = {
       left = 0,
       right = 0,

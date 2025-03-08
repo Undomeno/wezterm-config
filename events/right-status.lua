@@ -106,9 +106,13 @@ local _set_battery = function()
 end
 
 local _set_spotify = function()
-   local Text = spotify.get_currently_playing(40, 15)
-   if Text and Text:len() > 0 then
-      _push(Text, colors.date_utc_fg, colors.date_utc_bg, true)
+   -- 使用 pcall 来捕获可能的错误
+   local success, text = pcall(function()
+      return spotify.get_currently_playing(40, 15)
+   end)
+
+   if success and text and text:len() > 0 then
+      _push(text, colors.date_utc_fg, colors.date_utc_bg, true)
    end
 end
 
@@ -157,30 +161,8 @@ M.setup = function(config)
       end
    end)
 
-   -- Create a timer to periodically force updates
-   -- This helps ensure the status bar updates even if the regular event isn't firing
-   wezterm.on('gui-startup', function()
-      local mux = wezterm.mux
-      window:gui_window():maximize()
-
-      -- Start a timer that fires once per second
-      local timer = wezterm.timer.new({
-         interval = 1.0,
-         single_shot = false,
-         callback = function()
-            -- Force all windows to update their status
-            for _, window in ipairs(wezterm.mux.all_windows()) do
-               local success, err = pcall(function()
-                  update_status(window)
-               end)
-               if not success then
-                  wezterm.log_error("Failed to update status: " .. tostring(err))
-               end
-            end
-         end,
-      })
-      timer:start()
-   end)
+   -- 移除 gui-startup 事件处理函数，避免与 wezterm.lua 中的冲突
+   -- 我们不需要在这里创建定时器，因为 update-right-status 事件已经足够了
 end
 
 return M
