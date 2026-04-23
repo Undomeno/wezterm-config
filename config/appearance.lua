@@ -5,7 +5,7 @@ local gpu_adapters = require('utils.gpu-adapter')
 
 return {
    max_fps = 120,
-   front_end = 'WebGpu',
+   front_end = 'WebGpu', ---@type 'WebGpu' | 'OpenGL' | 'Software'
    webgpu_power_preference = 'HighPerformance',
    webgpu_preferred_adapter = gpu_adapters:pick_best(),
    -- webgpu_preferred_adapter = gpu_adapters:pick_manual('Dx12', 'IntegratedGpu'),
@@ -26,8 +26,8 @@ return {
    -- color scheme
    colors = colors,
 
-   -- background
-   -- background = backdrops:initial_options(false),
+   -- background: pass in `true` if you want wezterm to start with focus mode on (no bg images)
+   background = backdrops:initial_options({ no_img = true }),
 
    -- scrollbar
    enable_scroll_bar = false,
@@ -41,10 +41,16 @@ return {
    switch_to_last_active_tab_when_closing_tab = true,
    tab_max_width = 27,
 
+   -- command palette
+   command_palette_fg_color = '#b4befe',
+   command_palette_bg_color = '#11111b',
+   command_palette_font_size = 12,
+   command_palette_rows = 25,
+
    -- window
 
    window_background_opacity = 0.4,
-   macos_window_background_blur = 60,
+   macos_window_background_blur = 20,
    window_padding = {
       left = 0,
       right = 0,

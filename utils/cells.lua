@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-doc-alias
 --
 --[[ FormatItems: Begin ]]
 ---@class FormatItem.Text
@@ -47,14 +48,19 @@ end
 
 ---@alias Cells.SegmentColors {bg?: string|'UNSET', fg?: string|'UNSET'}
 
----@class Cells.Segment
+---@class FormatCells.Segment
 ---@field items FormatItem[]
 ---@field has_bg boolean
 ---@field has_fg boolean
+---@field nested false
+
+---@class FormatCells.NestedSegment
+---@field nested_items FormatItem[][]
+---@field nested true
 
 ---Format item generator for `wezterm.format` (ref: <https://wezfurlong.org/wezterm/config/lua/wezterm/format.html>)
----@class Cells
----@field segments table<string|number, Cells.Segment>
+---@class FormatCells
+---@field segments table<string|number, FormatCells.Segment|FormatCells.NestedSegment>
 local Cells = {}
 Cells.__index = Cells
 
@@ -70,6 +76,7 @@ Cells.attr = setmetatable(attr, {
    end,
 })
 
+---@return FormatCells
 function Cells:new()
    return setmetatable({
       segments = {},
@@ -78,7 +85,7 @@ end
 
 ---Add a new segment with unique `segment_id` to the cells
 ---@param segment_id string|number the segment id
----@param text string the text to push
+---@param text? string the text to push
 ---@param color? Cells.SegmentColors the bg and fg colors for text
 ---@param attributes? FormatItem.Attribute[] use bold text
 function Cells:add_segment(segment_id, text, color, attributes)
@@ -100,16 +107,30 @@ function Cells:add_segment(segment_id, text, color, attributes)
          table.insert(items, attr_)
       end
    end
-   table.insert(items, { Text = text })
+   table.insert(items, { Text = text or '' })
    table.insert(items, 'ResetAttributes')
 
-   ---@type Cells.Segment
+   ---@type FormatCells.Segment
    self.segments[segment_id] = {
       items = items,
       has_bg = color.bg ~= nil,
       has_fg = color.fg ~= nil,
+      nested = false,
    }
 
+   return self
+end
+
+---Add a nested segment with a unique `segment_id` to cells
+---@param segment_id string|number the segment id
+---@param items? FormatItem[][] the items to push
+---@return FormatCells
+function Cells:add_nested_segment(segment_id, items)
+   ---@type FormatCells.NestedSegment
+   self.segments[segment_id] = {
+      nested_items = items or {},
+      nested = true,
+   }
    return self
 end
 
@@ -117,16 +138,27 @@ end
 ---@private
 ---@param segment_id string|number the segment id
 function Cells:_check_segment(segment_id)
-   if not self.segments[segment_id] then
-      error('Segment "' .. segment_id .. '" not found')
-   end
+   assert(self.segments[segment_id], 'Segment "' .. segment_id .. '" not found')
 end
+
+---Check if the segment is nested
+---@param segment_id string|number the segment id
+---@param nested boolean whether the segment is nested or not
+function Cells:_check_nested(segment_id, nested)
+   assert(
+      self.segments[segment_id].nested == nested,
+      'Segment "' .. segment_id .. '" is ' .. (nested and 'not ' or '') .. 'a nested segment'
+   )
+end
+
+---check if the segment is not nested
 
 ---Update the text of a segment
 ---@param segment_id string|number the segment id
 ---@param text string the text to push
 function Cells:update_segment_text(segment_id, text)
    self:_check_segment(segment_id)
+   self:_check_nested(segment_id, false)
    local idx = #self.segments[segment_id].items - 1
    self.segments[segment_id].items[idx] = { Text = text }
    return self
@@ -139,6 +171,7 @@ function Cells:update_segment_colors(segment_id, color)
    assert(type(color) == 'table', 'Color must be a table')
 
    self:_check_segment(segment_id)
+   self:_check_nested(segment_id, false)
 
    local has_bg = self.segments[segment_id].has_bg
    local has_fg = self.segments[segment_id].has_fg
@@ -185,6 +218,30 @@ function Cells:update_segment_colors(segment_id, color)
    return self
 end
 
+---Update the items of a nested segment
+---@param segment_id string|number the segment id
+---@param items FormatItem[][] the items to push
+---@return FormatCells
+function Cells:update_nested_segment(segment_id, items)
+   self:_check_segment(segment_id)
+   self:_check_nested(segment_id, true)
+   self.segments[segment_id].nested_items = items
+   return self
+end
+
+---Extend the items of a nested segment
+---@param segment_id string|number the segment id
+---@param items FormatItem[] the items to push
+---@return FormatCells
+function Cells:extend_nested_segment(segment_id, items)
+   self:_check_segment(segment_id)
+   self:_check_nested(segment_id, true)
+   for _, item in pairs(items) do
+      table.insert(self.segments[segment_id].nested_items, item)
+   end
+   return self
+end
+
 ---Convert specific segments into a format that `wezterm.format` can use
 ---Segments will rendered in the order of the `ids` table
 ---@param ids table<string|number> the segment ids
@@ -195,9 +252,19 @@ function Cells:render(ids)
    for _, id in ipairs(ids) do
       self:_check_segment(id)
 
+      if self.segments[id].nested then
+         for _, nested in pairs(self.segments[id].nested_items) do
+            for _, item in pairs(nested) do
+               table.insert(cells, item)
+            end
+         end
+         goto continue
+      end
+
       for _, item in pairs(self.segments[id].items) do
          table.insert(cells, item)
       end
+      ::continue::
    end
    return cells
 end
@@ -209,9 +276,20 @@ end
 function Cells:render_all()
    local cells = {}
    for _, segment in pairs(self.segments) do
+      if segment.nested then
+         for _, nested in pairs(segment.nested_items) do
+            for _, item in pairs(nested) do
+               table.insert(cells, item)
+            end
+         end
+         goto continue
+      end
+
       for _, item in pairs(segment.items) do
          table.insert(cells, item)
       end
+
+      ::continue::
    end
    return cells
 end

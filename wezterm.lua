@@ -8,15 +8,14 @@ wezterm.on('gui-startup', function(cmd)
 	window:gui_window():maximize()
 end)
 
-require('utils.backdrops')
 -- :set_focus('#000000')
 -- :set_images_dir(require('wezterm').home_dir .. '/Pictures/Wallpapers/')
-	:set_images()
 
 require('events.right-status').setup({ date_format = '%a %H:%M' })
 require('events.left-status').setup()
 require('events.tab-title').setup()
 require('events.new-tab-button').setup()
+require('events.gui-startup').setup()
 
 return Config:init()
 	:append(require('config.appearance'))

@@ -1,3 +1,4 @@
+---@type Wezterm
 local wezterm = require('wezterm')
 local launch_menu = require('config.launch').launch_menu
 local domains = require('config.domains')
@@ -20,7 +21,7 @@ local colors = {
 }
 
 local cells = Cells:new()
-   :add_segment('icon_default', ' ' .. nf.md_domain .. ' ', colors.icon_default)
+   :add_segment('icon_default', ' ' .. nf.oct_terminal .. ' ', colors.icon_default)
    :add_segment('icon_wsl', ' ' .. nf.cod_terminal_linux .. ' ', colors.icon_wsl)
    :add_segment('icon_ssh', ' ' .. nf.md_ssh .. ' ', colors.icon_ssh)
    :add_segment('icon_unix', ' ' .. nf.dev_gnu .. ' ', colors.icon_unix)
@@ -97,7 +98,7 @@ M.setup = function()
          window:perform_action(default_action, pane)
       end
 
-      if default_action and button == 'Right' then
+      if button == 'Right' then
          window:perform_action(
             act.InputSelector({
                title = 'InputSelector: Launch Menu',
@@ -107,19 +108,16 @@ M.setup = function()
                action = wezterm.action_callback(function(_window, _pane, id, label)
                   if not id and not label then
                      return
-                  else
-                     wezterm.log_info('you selected ', id, label)
-                     wezterm.log_info(choices_data[tonumber(id)])
-                     window:perform_action(
-                        act.SpawnCommandInNewTab(choices_data[tonumber(id)]),
-                        pane
-                     )
                   end
+                  wezterm.log_info('you selected ', id, label)
+                  wezterm.log_info(choices_data[tonumber(id)])
+                  window:perform_action(act.SpawnCommandInNewTab(choices_data[tonumber(id)]), pane)
                end),
             }),
             pane
          )
       end
+
       return false
    end)
 end

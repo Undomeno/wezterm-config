@@ -59,7 +59,7 @@ local keys = {
    -- tabs --
    -- tabs: spawn+close
    { key = 't',          mods = mod.SUPER,     action = act.SpawnTab('DefaultDomain') },
-   { key = 't',          mods = mod.SUPER_REV, action = act.SpawnTab({ DomainName = 'WSL:Ubuntu' }) },
+   { key = 't',          mods = mod.SUPER_REV, action = act.SpawnTab({ DomainName = 'wsl:ubuntu-fish' }) },
    { key = 'w',          mods = mod.SUPER_REV, action = act.CloseCurrentTab({ confirm = false }) },
 
    -- tabs: navigation
@@ -160,7 +160,7 @@ local keys = {
       action = act.ActivateKeyTable({
          name = 'resize_font',
          one_shot = false,
-         timemout_miliseconds = 1000,
+         timeout_milliseconds = 1000,
       }),
    },
    -- resize panes
@@ -170,7 +170,7 @@ local keys = {
       action = act.ActivateKeyTable({
          name = 'resize_pane',
          one_shot = false,
-         timemout_miliseconds = 1000,
+         timeout_milliseconds = 1000,
       }),
    },
   }
