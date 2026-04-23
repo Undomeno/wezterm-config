@@ -8,7 +8,9 @@ local nf = wezterm.nerdfonts
 local M = {}
 
 local SEPARATOR_CHAR = nf.cod_kebab_vertical .. ' '
-local date_format = '%a %H:%M:%S' -- Default format with seconds for better update visibility
+local date_format = '%a %H:%M'
+local startup_time = os.time()
+local is_initialized = false
 
 local discharging_icons = {
    nf.md_battery_10,
@@ -106,6 +108,12 @@ local _set_battery = function()
 end
 
 local _set_spotify = function()
+   -- Skip spotify during startup to avoid issues
+   local current_time = os.time()
+   if current_time - startup_time < 3 then
+      return
+   end
+
    -- 使用 pcall 来捕获可能的错误
    local success, text = pcall(function()
       return spotify.get_currently_playing(40, 15)
@@ -120,6 +128,13 @@ end
 local function update_status(window)
    if not window then return end
 
+   -- Prevent duplicate updates during rapid event firing
+   local current_time = os.time()
+   if not is_initialized and current_time - startup_time < 1 then
+      return
+   end
+   is_initialized = true
+
    __cells__ = {}
 
    -- Use pcall to catch any errors that might occur during status updates
@@ -131,9 +146,10 @@ local function update_status(window)
    end)
 
    if not success then
-      -- If there was an error, just show a simple status
+      -- If there was an error, show minimal status to avoid blank status bar
       __cells__ = {}
-      _push("Status error: " .. tostring(err), colors.date_fg, colors.date_bg, false)
+      _set_date()
+      _set_utc_date()
    end
 
    -- Set the status with error handling
@@ -154,15 +170,25 @@ M.setup = function(config)
    end)
 
    -- Handle window focus events to force an update when window gets focus
-   -- This helps with resuming from sleep
+   -- This helps with resuming from sleep, but only after initialization
    wezterm.on('window-focus-changed', function(window, pane)
-      if window:is_focused() then
+      if window:is_focused() and is_initialized then
+         -- Add a small delay to prevent rapid updates
+         wezterm.sleep_ms(100)
          update_status(window)
       end
    end)
 
-   -- 移除 gui-startup 事件处理函数，避免与 wezterm.lua 中的冲突
-   -- 我们不需要在这里创建定时器，因为 update-right-status 事件已经足够了
+   -- Use a timer to ensure proper initialization after startup
+   wezterm.time.call_after(2, function()
+      local mux = wezterm.mux
+      for _, window in ipairs(mux.all_windows()) do
+         local gui_window = window:gui_window()
+         if gui_window then
+            update_status(gui_window)
+         end
+      end
+   end)
 end
 
 return M

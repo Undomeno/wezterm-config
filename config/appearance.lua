@@ -1,5 +1,6 @@
 local wezterm = require('wezterm')
 local colors = require('themes.color')
+local backdrops = require('utils.backdrops')
 local gpu_adapters = require('utils.gpu-adapter')
 
 return {
@@ -25,6 +26,9 @@ return {
    -- color scheme
    colors = colors,
 
+   -- background
+   -- background = backdrops:initial_options(false),
+
    -- scrollbar
    enable_scroll_bar = false,
 
@@ -39,8 +43,8 @@ return {
 
    -- window
 
-   window_background_opacity = 0.7,
-   macos_window_background_blur = 20,
+   window_background_opacity = 0.4,
+   macos_window_background_blur = 60,
    window_padding = {
       left = 0,
       right = 0,

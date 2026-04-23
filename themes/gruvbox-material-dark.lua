@@ -40,7 +40,7 @@ local gruvbox = {
 
 local colorscheme = {
    foreground = gruvbox.fg0,
-   background = gruvbox.bg0,
+   background = 'rgba(0,0,0,0.6)',
    cursor_bg = gruvbox.grey1,
    cursor_border = gruvbox.bg1,
    cursor_fg = gruvbox.bg0,
