@@ -32,12 +32,32 @@ H._space = function(s, space, trailing_space)
 end
 
 -- trim string from trailing spaces and newlines
-H._trim = function(s)
+local function _spt_trim(s)
   s = s:match "^%s*(.-)%s*$"
   s = s:gsub("%s*-%s*%d*%s*[Rr]emaster.*", "")
   s = s:gsub(" ?%(.*[Rr]emastere?d?.*%)","")
   return s
 end
+
+-- parse spotify json --
+H._spt_parse = function(s)
+  local data, err = wez.json_parse(s)
+  if not data then
+    wez.log_error("JSON Parse Error: " .. tostring(err))
+    return
+  end
+
+  if data.item and data.item.type == "track" then
+    local song = _spt_trim(data.item.name or "Unknown Song")
+    local artist = "Unknown Artist"
+    if data.item.artists and data.item.artists[1] then
+      artist = data.item.artists[1].name
+    end
+    return song .. " - " .. artist
+  end
+  return ""
+end
+
 
 -- merges two tables
 function H._merge(t1, t2)

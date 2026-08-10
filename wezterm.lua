@@ -2,12 +2,6 @@
 local wezterm = require 'wezterm'
 local Config = require('config')
 
-wezterm.on('gui-startup', function(cmd)
-	local mux = wezterm.mux
-	local tab, pane, window = mux.spawn_window(cmd or {})
-	window:gui_window():maximize()
-end)
-
 -- :set_focus('#000000')
 -- :set_images_dir(require('wezterm').home_dir .. '/Pictures/Wallpapers/')
 

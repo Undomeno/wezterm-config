@@ -51,7 +51,7 @@ M.get_currently_playing = function(max_width, throttle)
       return ""
     end
 
-    local spt_path = home .. "/.cargo/bin/spt"
+    local spt_path = "/opt/homebrew/bin/spotify_player"
     -- Check if the file exists before trying to run it
     local file = io.open(spt_path, "r")
     if not file then
@@ -59,15 +59,14 @@ M.get_currently_playing = function(max_width, throttle)
     end
     file:close()
 
-    local success, pb, stderr = wez.run_child_process { spt_path, "playback", "--format=%a - %t" }
+    local success, pb, stderr = wez.run_child_process { spt_path, "get", "key", "playback" }
     if not success then
       if stderr then
         wez.log_error("Spotify error: " .. stderr)
       end
       return ""
     end
-
-    return utilities._trim(pb or "")
+    return utilities._spt_parse(pb or "")
   end)
 
   if not success then
