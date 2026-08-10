@@ -3,6 +3,7 @@ local colors = require('themes.color')
 local backdrops = require('utils.backdrops')
 local gpu_adapters = require('utils.gpu-adapter')
 
+
 return {
    max_fps = 120,
    front_end = 'WebGpu', ---@type 'WebGpu' | 'OpenGL' | 'Software'
@@ -49,15 +50,9 @@ return {
 
    -- window
 
-   window_background_opacity = 80,
-   macos_window_background_blur = 0,
-   window_padding = {
-      left = 0,
-      right = 0,
-      top = 10,
-      bottom = 7.5,
-   },
-   adjust_window_size_when_changing_font_size = false,
+   window_background_opacity = 0.6,
+   macos_window_background_blur = 3,
+   window_decorations = "RESIZE",
    window_close_confirmation = 'NeverPrompt',
    window_frame = {
       active_titlebar_bg = '#090909',
@@ -88,5 +83,6 @@ return {
       top = 2,
       bottom = 0,
    },
+
    native_macos_fullscreen_mode = true,
 }

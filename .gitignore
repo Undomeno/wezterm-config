@@ -7,3 +7,5 @@ README.md
 config/domains.lua
 config/launch.lua
 \#*
+
+.lua*
