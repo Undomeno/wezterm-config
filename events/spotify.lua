@@ -17,7 +17,7 @@ local format_playback = function(pb, max_width)
   end
 
   -- split on " - "
-  local artist, track = pb:match "^(.-) %- (.+)$"
+  local track, artist = pb:match "^(.-) %- (.+)$"
   if not artist or not track then
     return pb:sub(1, max_width)
   end
