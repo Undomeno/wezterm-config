@@ -1,9 +1,8 @@
 local wezterm = require('wezterm')
 local platform = require('utils.platform')
 
-local font_family = 'Iosevka'
-local font_size = platform.is_mac and 16 or 16
-
+local font_family = 'Iosevka Term'
+local font_size = 15
 return {
    font = wezterm.font({
       family = font_family,

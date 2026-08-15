@@ -6,9 +6,8 @@ local gpu_adapters = require('utils.gpu-adapter')
 
 return {
    max_fps = 120,
-   front_end = 'WebGpu', ---@type 'WebGpu' | 'OpenGL' | 'Software'
-   webgpu_power_preference = 'HighPerformance',
-   webgpu_preferred_adapter = gpu_adapters:pick_best(),
+   front_end = 'WebGpu',
+   webgpu_power_preference = 'LowPower',
    -- webgpu_preferred_adapter = gpu_adapters:pick_manual('Dx12', 'IntegratedGpu'),
    -- webgpu_preferred_adapter = gpu_adapters:pick_manual('Gl', 'Other'),
    underline_thickness = '1.5pt',
@@ -67,7 +66,7 @@ return {
       saturation = 1,
       brightness = 1,
    },
-   window_decorations = "RESIZE",
+   window_decorations = "NONE",
 
    visual_bell = {
       fade_in_function = 'EaseIn',

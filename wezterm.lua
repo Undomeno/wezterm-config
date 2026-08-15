@@ -11,6 +11,14 @@ require('events.tab-title').setup()
 require('events.new-tab-button').setup()
 require('events.gui-startup').setup()
 
+-- wezterm.lua
+wezterm.on(
+	'window-focus-changed',
+	function(window, pane)
+		wezterm.run_child_process { 'sh', '-c', 'wl-paste -n | wl-copy' }
+	end
+)
+
 return Config:init()
 	:append(require('config.appearance'))
 	:append(require('config.fonts'))
