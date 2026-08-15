@@ -51,7 +51,7 @@ M.get_currently_playing = function(max_width, throttle)
       return ""
     end
 
-    local spt_path = "/opt/homebrew/bin/spotify_player"
+    local spt_path = "~/.cargo/bin/spotify_player"
     -- Check if the file exists before trying to run it
     local file = io.open(spt_path, "r")
     if not file then
