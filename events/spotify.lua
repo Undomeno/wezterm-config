@@ -46,12 +46,7 @@ M.get_currently_playing = function(max_width, throttle)
   -- Check if we're in a context where we can run child processes
   local success, result = pcall(function()
     -- fetch playback using spotify-tui
-    local home = os.getenv("HOME")
-    if not home then
-      return ""
-    end
-
-    local spt_path = "~/.cargo/bin/spotify_player"
+    local spt_path = utilities.home .. "/.cargo/bin/spotify_player"
     -- Check if the file exists before trying to run it
     local file = io.open(spt_path, "r")
     if not file then

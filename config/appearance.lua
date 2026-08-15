@@ -2,6 +2,7 @@ local wezterm = require('wezterm')
 local colors = require('themes.color')
 local backdrops = require('utils.backdrops')
 local gpu_adapters = require('utils.gpu-adapter')
+local platform = require('utils.platform')
 
 
 return {
@@ -51,7 +52,6 @@ return {
 
    window_background_opacity = 0.6,
    macos_window_background_blur = 3,
-   window_decorations = "RESIZE",
    window_close_confirmation = 'NeverPrompt',
    window_frame = {
       active_titlebar_bg = '#090909',
@@ -66,7 +66,7 @@ return {
       saturation = 1,
       brightness = 1,
    },
-   window_decorations = "NONE",
+   window_decorations = platform.is_mac and 'RESIZE' or 'NONE',
 
    visual_bell = {
       fade_in_function = 'EaseIn',
